@@ -34,24 +34,19 @@ CLASSIFIERS = [
     "Programming Language :: Python",
 ]
 
-DESCRIPTION = "Package adapting scikit-learn models to intelligently use pandas data structures."
+DESCRIPTION = "Package adapting scikit-learn models to intelligently use "
+"pandas data structures."
+
 with open("README.md") as f:
     LONG_DESCRIPTION = f.read()
 URL = "https://github.com/RichLewis42/pandas-learn"
 DOWNLOAD_URL = ""
 
+with open('requirements.txt') as f:
+    DEPENDENCIES = [l.strip() for l in f]
 
-DEPENDENCIES = [
-
-]
-
-TEST_DEPENDENCIES = [
-    "pytest",
-    "coverage",
-    "nose",
-    "yanc",
-]
-
+with open('requirements_test.txt') as f:
+    TEST_DEPENDENCIES = [l.strip() for l in f]
 
 def setup_package():
 
