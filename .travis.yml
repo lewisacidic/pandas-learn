@@ -27,6 +27,7 @@ before_install:
   - conda info -a
   - conda create -q -n test-env python=$TRAVIS_PYTHON_VERSION
   - source activate test-env
+  - pip install coveralls
 
 install:
   - conda install --file requirements.txt
@@ -35,3 +36,6 @@ install:
 
 script:
   - nosetests
+
+after_success:
+  - coveralls
