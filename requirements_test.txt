@@ -1,5 +1,3 @@
 nose
-yanc
 coverage
 pytest
-ipdb
