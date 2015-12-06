@@ -6,6 +6,7 @@
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
 
 language: python
+
 python:
   - "2.7"
   - "3.4"
@@ -21,6 +22,7 @@ before_install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
+  - conda config --add channels http://conda.anaconda.org/richlewis
   - conda update -q conda
   - conda info -a
   - conda create -q -n test-env python=$TRAVIS_PYTHON_VERSION
