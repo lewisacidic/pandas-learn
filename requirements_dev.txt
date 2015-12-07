@@ -1,2 +1,5 @@
 pylint
 invoke
+sphinx
+sphinx_rtd_theme
+-e git+https://github.com/GaretJax/sphinx-autobuild.git
