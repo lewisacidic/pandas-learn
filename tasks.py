@@ -1,13 +1,16 @@
 from invoke import run, task
 
 @task
-def lint():
-    run("pylint pdlearn")
+def linter():
+    run('pylint pdlearn')
 
 @task
-def test(pytest=False):
+def tests(pytest=False):
     if pytest:
-        run("py.test")
+        run('py.test')
     else:
-        run("nosetests")
+        run('nosetests')
 
+@task
+def clean():
+    run("""find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf""")
