@@ -23,7 +23,7 @@ excellent libraries. A minimal example:
 In [1]: from pdlearn.ensemble import RandomForestClassifier
 
 In [2]: data = pd.read_csv('titanic-train.csv')           \
-                 .join(pd.read_csv('titanic-test.csv'))   \
+                 .append(pd.read_csv('titanic-test.csv'))   \
                  .set_index('name')
 In [3]: data['sex'] = data.sex == 'male'
 In [4]: X = data[['sex', 'pclass']]
@@ -71,11 +71,26 @@ pip install -r requirements_dev.txt
 [Pyinvoke](http://www.pyinvoke.org) is used to run the development tasks.
 
 You can lint the project using [Pylint](pylint.org) with:
+
 ```bash
 invoke linter
 ```
 
 And run the tests using [pytest](pytest.org) and [nose](nose.readthedocs.org) with:
+
 ```bash
 invoke tests
+```
+
+And (interactively) build the documentation using [sphinx](sphinx-org.org) and
+[sphinx-autobuild](https://github.com/GaretJax/sphinx-autobuild) with:
+
+```bash
+invoke docs
+```
+
+Finally, you can clean the project up with:
+
+```bash
+invoke clean --bytecode --docs
 ```
