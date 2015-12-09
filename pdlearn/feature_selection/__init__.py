@@ -10,7 +10,7 @@
 
 """
 pdlearn.feature_selection
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Package adapting scikit-learn's feature_selection models.
 """

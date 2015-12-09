@@ -10,7 +10,7 @@
 
 """
 pdlearn.linear_model.logistic
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Module adapting scikit-learn's logistic regresion models.
 """

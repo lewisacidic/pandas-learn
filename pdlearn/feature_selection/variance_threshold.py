@@ -10,7 +10,7 @@
 
 """
 pdlearn.feature_selection.variance_threshold
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Package adapting scikit-learn's ensemble models.
 """

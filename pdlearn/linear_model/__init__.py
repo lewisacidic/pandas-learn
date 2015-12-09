@@ -10,7 +10,7 @@
 
 """
 pdlearn.linear_model
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 Package adapting scikit-learn's linear models.
 """
