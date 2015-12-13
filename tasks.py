@@ -7,10 +7,8 @@ def linter():
     run('pylint pdlearn')
 
 @task
-def tests(slow=False, html=False):
+def tests(html=False):
     opts = ['py.test']
-    if slow:
-        opts.append('--runslow')
     if html:
         opts.append('--cov-report=html')
     run(' '.join(opts))
