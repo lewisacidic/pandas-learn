@@ -9,10 +9,10 @@
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
 
 """
-pdlearn.adaptor.tests.methods
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tests.test_adaptor.methods
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tests for the methods adaptor module.
+Tests for the methods adaptor module of pdlearn.
 """
 
 class TestMethods(object):

@@ -9,10 +9,10 @@
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
 # pylint: disable=missing-docstring,R0201
 """
-pdlearn.test_utils
-~~~~~~~~~~~~~
+test.test_utils
+~~~~~~~~~~~~~~~
 
-Tests for the utils module.
+Tests for the utils module of pdlearn.
 """
 
 import pytest

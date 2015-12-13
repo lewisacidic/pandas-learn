@@ -9,15 +9,15 @@
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
 
 """
-pdlearn.adaptor.tests.regressor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tests.test_adaptor.regressor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tests for the regressor adaptor module.
+Tests for the regressor adaptor module of pdlearn.
 """
 
 import pytest
 
-from pdlearn.test_utils import DATA_FRAME, TWO_D_ARRAY
+from ..test_utils import DATA_FRAME, TWO_D_ARRAY
 from pdlearn.utils import is_frame, is_series, CompatabilityWarning
 
 import pdlearn.adaptor.regressor

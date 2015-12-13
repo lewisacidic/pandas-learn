@@ -9,15 +9,15 @@
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
 
 """
-pdlearn.adaptor.tests.classifier
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tests.test_adaptor.classifier
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tests for the classifier adaptor module.
+Tests for the classifier adaptor module of pdlearn.
 """
 
 import pytest
 
-from pdlearn.test_utils import DATA_FRAME, SERIES, ONE_D_ARRAY, TWO_D_ARRAY
+from ..test_utils import DATA_FRAME, SERIES, ONE_D_ARRAY, TWO_D_ARRAY
 from pdlearn.utils import is_frame, is_series, CompatabilityWarning
 
 import pdlearn.adaptor.classifier

@@ -10,10 +10,10 @@
 # pylint: disable=C0111
 
 """
-pdlearn.feature_selection.tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tests.test_feature_selection.test_variance_threshold
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tests for the feature selection package of pdlearn.
+Tests for the variance threshold module of pdlearn.
 """
 
 import pandas as pd

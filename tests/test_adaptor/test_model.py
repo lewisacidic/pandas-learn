@@ -9,10 +9,10 @@
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
 
 """
-pdlearn.adaptor.tests.model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tests.test_adaptor.model
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tests for the model adaptor module.
+Tests for the model adaptor module of pdlearn.
 """
 
 

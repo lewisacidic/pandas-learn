@@ -9,10 +9,10 @@
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
 
 """
-pdlearn.adaptor.tests.transformer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tests.test_adaptor.transformer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tests for the transformer adaptor module.
+Tests for the transformer adaptor module of pdlearn.
 """
 
 import pytest
@@ -20,7 +20,7 @@ import pytest
 import pdlearn.adaptor.transformer
 import pdlearn.adaptor.model
 
-from pdlearn.test_utils import DATA_FRAME, TWO_D_ARRAY
+from ..test_utils import DATA_FRAME, TWO_D_ARRAY
 from pdlearn.utils import is_frame, is_series, CompatabilityWarning
 
 import string
