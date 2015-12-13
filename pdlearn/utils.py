@@ -17,6 +17,7 @@ Collection of utility functions for the pdlearn package.
 
 import logging
 import warnings
+from functools import wraps
 
 import pandas as pd
 
@@ -49,6 +50,7 @@ def takes_df_or_array(func):
     """
 
     #pylint: disable=C0111
+    @wraps(func)
     def inner(self, X):
 
         if self.pandas_mode_:
@@ -73,6 +75,7 @@ def returns_single_indexed(func):
     """
 
     #pylint: disable=C0111
+    @wraps(func)
     def inner(self, X):
         res = func(self, X)
 
@@ -100,6 +103,7 @@ def returns_multi_indexed(func):
     """
 
     #pylint: disable=C0111
+    @wraps(func)
     def inner(self, X):
         res = func(self, X)
 
