@@ -90,7 +90,7 @@ class Synthesizer(object):
         else:
             raise NotImplementedError('Can\'t make pandas object from >3tensor')
 
-    def make_pds(self, *args, share_index=False):
+    def make_pds(self, *args, **kwargs):
 
         """
         Make dataframes from arrays passed in as arguments, with random
@@ -98,7 +98,7 @@ class Synthesizer(object):
         passed.
         """
 
-        if share_index:
+        if kwargs.get('share_index'):
             idx = self.make_index(args[0].shape[0])
             return tuple(self.make_pd(a, index=idx) for a in args)
         else:
@@ -133,14 +133,15 @@ DATA_GENERATING_FUNCS = (
 def dataset(data_func):
 
     """
-    Decorator for a data set generating function to allow for the pandas_mode
+    Decorator for a data set generating function to allow for the pandas_mode_mode
     option, which returns dataframes with synthetic indexes and columns to
     generated data.
     """
 
     # pylint: disable=C0111
     @wraps(data_func)
-    def inner(*args, pandas_mode=False, **kwargs):
+    def inner(*args, **kwargs):
+        pandas_mode = kwargs.pop('pandas_mode', None)
         res = data_func(*args, **kwargs)
         if pandas_mode:
             return SYNTH.make_pds(*res, share_index=True)
@@ -154,31 +155,36 @@ for func in DATA_GENERATING_FUNCS:
 # make_regression gets coefs out optionally, so have to handle differently
 # pylint: disable=C0111
 @wraps(ds.make_regression)
-def make_regression(*args, coef=False, pandas_mode=False, **kwargs):
-    if coef and pandas_mode:
-        X, y, coefs = ds.make_regression(*args, coef=coef, **kwargs)
+def make_regression(*args, **kwargs):
+    if kwargs.get('coef') and kwargs.get('pandas_mode'):
+        #handle special case
+        kwargs.pop('pandas_mode') # remove like this because py27 is annoying
+
+        X, y, coefs = ds.make_regression(*args, **kwargs)
         X, y = SYNTH.make_pds(X, y, share_index=True)
+
         if len(coefs.shape) == 1: # single target
             coefs = pd.Series(coefs, index=X.columns, name='coefs')
+
         else: # multi target
             coefs = pd.DataFrame(coefs, index=X.columns, columns=y.columns)
+
         return X, y, coefs
+
     else:
         # it's normal dataset
-        return dataset(ds.make_regression)(*args, coef=coef,
-                                           pandas_mode=pandas_mode, **kwargs)
+        return dataset(ds.make_regression)(*args, **kwargs)
 
 # same for make_multilabel_classification and p_c, p_w_c
 
 @wraps(ds.make_multilabel_classification)
-def make_multilabel_classification(*args, pandas_mode=False, **kwargs):
-
-    if kwargs.get('sparse') and pandas_mode:
+def make_multilabel_classification(*args, **kwargs):
+    if kwargs.get('sparse') and kwargs.get('pandas_mode'):
         raise NotImplementedError('Sparse datasets are not yet supported in '
                                   'pandas mode.')
 
-    if kwargs.get('return_distributions') and pandas_mode:
-
+    if kwargs.get('return_distributions') and kwargs.get('pandas_mode'):
+        kwargs.pop('pandas_mode')
         X, y, p_c, p_w_c = ds.make_multilabel_classification(*args, **kwargs)
         X, y = SYNTH.make_pds(X, y, share_index=True)
         p_c = pd.Series(p_c, index=y.columns, name='prob_of_class')
@@ -188,7 +194,7 @@ def make_multilabel_classification(*args, pandas_mode=False, **kwargs):
     else:
         # it's normal dataset
         data_func = dataset(ds.make_multilabel_classification)
-        X, y = data_func(*args, pandas_mode=pandas_mode, **kwargs)
+        X, y = data_func(*args, **kwargs)
         return X, y
 
 # unique dataset generator needs own implementation
@@ -224,7 +230,8 @@ def bicluster_dataset(data_func):
     """
 
     @wraps(data_func)
-    def inner(*args, pandas_mode, **kwargs):
+    def inner(*args, **kwargs):
+        pandas_mode = kwargs.pop('pandas_mode', None)
         X, rows, cols = data_func(*args, **kwargs)
         if pandas_mode:
             X = SYNTH.make_pd(X)
