@@ -19,7 +19,23 @@ classes inheriting from scikit-learn style classifiers.
 from ..utils import (
     takes_df_or_array,
     returns_single_indexed,
-    returns_multi_indexed)
+    returns_multi_indexed,
+    is_frame,
+    is_series)
+
+from .model import model, fitter
+import pandas as pd
+
+# pylint: disable=C0111
+@fitter
+def fit(self, X, y=None):
+
+    if is_frame(y):
+        self.target_names_ = y.columns
+
+    elif is_series(y):
+        self.target_names_ = pd.Index([y.name])
+
 
 @property
 def multitask_(self):
@@ -62,7 +78,7 @@ def predict_log_proba(self, X):
 
     return res
 
-
+@model
 def classifier(cls):
 
     """
@@ -70,6 +86,7 @@ def classifier(cls):
     a scikit-learn style classification models.
     """
 
+    cls.fit = fit
     cls.predict = predict
     cls.predict_proba = predict_proba
     cls.predict_log_proba = predict_log_proba

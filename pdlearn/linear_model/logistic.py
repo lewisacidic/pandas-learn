@@ -20,7 +20,6 @@ from ..adaptor import model, classifier, feature_property
 import sklearn.linear_model
 
 # pylint: disable=R0901,C0111
-@model
 @classifier
 class LogisticRegression(sklearn.linear_model.LogisticRegression):
 

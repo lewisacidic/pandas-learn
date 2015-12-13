@@ -17,7 +17,7 @@ Tests for the classifier adaptor module.
 
 import pytest
 
-from pdlearn.test_utils import DATA_FRAME, TWO_D_ARRAY
+from pdlearn.test_utils import DATA_FRAME, SERIES, ONE_D_ARRAY, TWO_D_ARRAY
 from pdlearn.utils import is_frame, is_series, CompatabilityWarning
 
 import pdlearn.adaptor.classifier
@@ -25,6 +25,7 @@ import pdlearn.adaptor.model
 import numpy as np
 import pandas as pd
 
+TARGETS = pd.DataFrame(TWO_D_ARRAY, columns=['T', 'G'])
 
 class MockClassifier(object):
 
@@ -35,6 +36,9 @@ class MockClassifier(object):
             self.classes_ = np.array([0, 1])
 
         self._num_tasks = 2 if multitask else 1
+
+    def fit(self, X, y=None):
+        pass
 
     def predict(self, X):
         if self._num_tasks == 1:
@@ -56,7 +60,6 @@ class MockClassifier(object):
             return [np.array([[-1, -0.04]] * len(X))] * self._num_tasks
 
 
-@pdlearn.adaptor.model
 @pdlearn.adaptor.classifier
 class ChildClassifier(MockClassifier):
 
@@ -81,6 +84,45 @@ class TestClassifier(object):
     def test_multitask(self):
 
         assert ChildClassifier(targets=['a', 'b']).multitask_
+
+
+    def test_fit_with_arr(self):
+
+        child = ChildClassifier().fit(TWO_D_ARRAY)
+        assert not child.pandas_mode_
+
+        child.fit(TWO_D_ARRAY, ONE_D_ARRAY)
+        assert not child.pandas_mode_
+
+    def test_with_hybrid(self):
+
+        child = ChildClassifier().fit(TWO_D_ARRAY, SERIES)
+        assert child.pandas_mode_
+        assert np.array_equal(child.target_names_, ['T'])
+
+        child.fit(DATA_FRAME, ONE_D_ARRAY)
+        assert child.pandas_mode_
+        assert np.array_equal(child.feature_names_, ['x', 'y'])
+
+    def test_fit_with_df(self):
+
+        child = ChildClassifier().fit(DATA_FRAME)
+        assert child.pandas_mode_
+        assert np.array_equal(child.feature_names_, ['x', 'y'])
+
+    def test_fit_with_df_ser(self):
+
+        child = ChildClassifier().fit(DATA_FRAME, SERIES)
+        assert child.pandas_mode_
+        assert np.array_equal(child.feature_names_, ['x', 'y'])
+        assert np.array_equal(child.target_names_, ['T'])
+
+    def test_fit_multitarget(self):
+
+        child = ChildClassifier().fit(DATA_FRAME, TARGETS)
+        assert child.pandas_mode_
+        assert np.array_equal(child.feature_names_, ['x', 'y'])
+        assert np.array_equal(child.target_names_, ['T', 'G'])
 
     def test_predict(self):
 

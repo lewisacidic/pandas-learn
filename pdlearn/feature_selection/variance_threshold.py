@@ -12,14 +12,13 @@
 pdlearn.feature_selection.variance_threshold
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Package adapting scikit-learn's ensemble models.
+Package adapting scikit-learn's variance threshold model.
 """
 
 import sklearn.feature_selection
-from ..adaptor import model, transformer, feature_property
+from ..adaptor import transformer, feature_property
 
 # pylint: disable=C0111
-@model
 @transformer
 class VarianceThreshold(sklearn.feature_selection.VarianceThreshold):
 

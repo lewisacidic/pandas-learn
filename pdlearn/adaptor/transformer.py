@@ -17,6 +17,7 @@ transformers to work with pandas.
 """
 
 from ..utils import takes_df_or_array, returns_single_indexed
+from .model import model, fitter
 
 # pylint: disable=C0111
 @takes_df_or_array
@@ -28,7 +29,16 @@ def transform(self, X):
         res = self.transform(X)
     return res
 
+# Transformers do not know what their targets are ahead of time, as that is
+# determined during the fit.
+#
+# pylint: disable=C0111
+@fitter
+def fit(self, X, y=None):
+    pass
 
+
+@model
 def transformer(cls):
 
     """
@@ -36,5 +46,6 @@ def transformer(cls):
     a scikit-learn style transformer models.
     """
 
+    cls.fit = fit
     cls.transform = transform
     return cls

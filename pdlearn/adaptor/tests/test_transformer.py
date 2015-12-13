@@ -36,7 +36,6 @@ class MockTransformer(object):
     def transform(self, X, y=None):
         return np.random.randn(X.shape[0], X.shape[1])
 
-@pdlearn.adaptor.model
 @pdlearn.adaptor.transformer
 class ChildTransformer(MockTransformer):
 

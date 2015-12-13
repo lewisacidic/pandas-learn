@@ -16,8 +16,10 @@ Module implementing adaptor functions for porting scikit-learn's
 regressors to work with pandas.
 """
 
-from .classifier import predict
+from .classifier import fit, predict
+from .model import model
 
+@model
 def regressor(cls):
 
     """
@@ -25,6 +27,7 @@ def regressor(cls):
     a scikit-learn style regression models.
     """
 
+    cls.fit = fit
     cls.predict = predict
 
     return cls

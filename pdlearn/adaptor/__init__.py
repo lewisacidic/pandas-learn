@@ -19,5 +19,4 @@ models to work transparently with pandas.
 from .classifier import classifier
 from .regressor import regressor
 from .transformer import transformer
-from .model import model
 from .methods import feature_property

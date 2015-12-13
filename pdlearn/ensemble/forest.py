@@ -15,19 +15,17 @@ pdlearn.ensemble.forest
 Module adapting scikit-learn's forest ensemble models.
 """
 
-from ..adaptor import model, classifier, transformer, feature_property
+from ..adaptor import classifier, transformer, feature_property
 
 import sklearn.ensemble
 
 # pylint: disable=C0111
-@model
 @classifier
 class RandomForestClassifier(sklearn.ensemble.RandomForestClassifier):
     feature_importances_ = feature_property('feature_importances')
 
 # disable too many ancestors and abstract not overriden - they are sklearn probs
 # pylint: disable=C0111,R0901,W0223
-@model
 @transformer
 class RandomTreesEmbedding(sklearn.ensemble.RandomTreesEmbedding):
     feature_importances_ = feature_property('feature_importances')

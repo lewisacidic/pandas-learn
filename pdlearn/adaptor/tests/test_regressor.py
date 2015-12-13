@@ -42,7 +42,6 @@ class MockRegressor(object):
         else:
             return [np.array([42] * len(X))] * self._num_tasks
 
-@pdlearn.adaptor.model
 @pdlearn.adaptor.regressor
 class ChildRegressor(MockRegressor):
 

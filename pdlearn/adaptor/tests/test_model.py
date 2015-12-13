@@ -16,13 +16,7 @@ Tests for the model adaptor module.
 """
 
 
-import pdlearn.adaptor
-from pdlearn.test_utils import DATA_FRAME, SERIES, ONE_D_ARRAY, TWO_D_ARRAY
-
-import numpy as np
-import pandas as pd
-
-TARGETS = pd.DataFrame(TWO_D_ARRAY, columns=['T', 'G'])
+from pdlearn.adaptor.model import model, fitter
 
 class Parent(object):
     def shout(self):
@@ -30,8 +24,16 @@ class Parent(object):
     def fit(self, X, y=None):
         pass
 
+@fitter
+def mock_fit(self, X, y=None):
+    pass
 
-@pdlearn.adaptor.model
+@model
+def model_mock(cls):
+    cls.fit = mock_fit
+    return cls
+
+@model_mock
 class Child(Parent):
 
     def __init__(self, feature_names=None, target_names=None):
@@ -64,41 +66,3 @@ class TestModel(object):
         assert Child(target_names=['c', 'd']).pandas_mode_
         assert Child(feature_names=['a', 'b'],
                      target_names=['c', 'd']).pandas_mode_
-
-    def test_fit_with_arr(self):
-
-        child = Child().fit(TWO_D_ARRAY)
-        assert not child.pandas_mode_
-
-        child.fit(TWO_D_ARRAY, ONE_D_ARRAY)
-        assert not child.pandas_mode_
-
-    def test_with_hybrid(self):
-
-        child = Child().fit(TWO_D_ARRAY, SERIES)
-        assert child.pandas_mode_
-        assert np.array_equal(child.target_names_, ['T'])
-
-        child.fit(DATA_FRAME, ONE_D_ARRAY)
-        assert child.pandas_mode_
-        assert np.array_equal(child.feature_names_, ['x', 'y'])
-
-    def test_fit_with_df(self):
-
-        child = Child().fit(DATA_FRAME)
-        assert child.pandas_mode_
-        assert np.array_equal(child.feature_names_, ['x', 'y'])
-
-    def test_fit_with_df_ser(self):
-
-        child = Child().fit(DATA_FRAME, SERIES)
-        assert child.pandas_mode_
-        assert np.array_equal(child.feature_names_, ['x', 'y'])
-        assert np.array_equal(child.target_names_, ['T'])
-
-    def test_fit_multitarget(self):
-
-        child = Child().fit(DATA_FRAME, TARGETS)
-        assert child.pandas_mode_
-        assert np.array_equal(child.feature_names_, ['x', 'y'])
-        assert np.array_equal(child.target_names_, ['T', 'G'])

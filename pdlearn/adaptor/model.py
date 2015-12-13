@@ -19,8 +19,7 @@ classes inheriting from scikit-learn style models.
 import contextlib
 
 from ..utils import is_frame, is_series
-
-import pandas as pd
+from functools import wraps
 
 @contextlib.contextmanager
 def unyouthanize(self):
@@ -48,35 +47,38 @@ def pandas_mode_(self):
 
     return hasattr(self, 'feature_names_') or hasattr(self, 'target_names_')
 
+def fitter(func):
 
-# pylint: disable=C0111
-def fit(self, X, y=None):
+    @wraps(func)
+    def inner(self, X, y=None):
 
-    if is_frame(X):
-        self.feature_names_ = X.columns
+        func(self, X, y)
 
-    if is_frame(y):
-        self.target_names_ = y.columns
+        if is_frame(X):
+            self.feature_names_ = X.columns
 
-    elif is_series(y):
-        self.target_names_ = pd.Index([y.name])
+        # pylint: disable=W0212
+        with self._unyouthanize():
+            self.fit(X, y)
 
-    # pylint: disable=W0212
-    with self._unyouthanize():
-        self.fit(X, y)
+        return self
 
-    return self
+    return inner
 
-def model(cls):
+
+def model(model_decorator):
 
     """
     Decorator to generically add pandas compatability to classes inheriting from
     a scikit-learn style models.
     """
-    # pylint: disable=W0212
-    cls._unyouthanize = unyouthanize
-    cls.pandas_mode_ = pandas_mode_
-    cls.fit = fit
 
+    @wraps(model_decorator)
+    def inner(cls):
+        # pylint: disable=W0212
+        cls._unyouthanize = unyouthanize
+        cls.pandas_mode_ = pandas_mode_
 
-    return cls
+        return model_decorator(cls)
+
+    return inner
