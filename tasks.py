@@ -1,4 +1,5 @@
 from invoke import run, task
+import webbrowser
 import os
 
 @task
@@ -6,20 +7,27 @@ def linter():
     run('pylint pdlearn')
 
 @task
-def tests(pytest=False):
-    if pytest:
-        run('py.test')
-    else:
-        run('nosetests')
+def tests(slow=False, html=False):
+    opts = ['py.test']
+    if slow:
+        opts.append('--runslow')
+    if html:
+        opts.append('--cov-report=html')
+    run(' '.join(opts))
+    if html:
+        webbrowser.open('file://' + os.path.realpath('htmlcov/index.html'))
 
 @task
-def clean(bytecode=False, docs=False, checkpoints=False):
-    if checkpoints:
+def clean(all=False, bytecode=False, docs=False,
+          checkpoints=False, coverage=False):
+    if checkpoints or all:
         run(r'find . | grep -E ".ipynb_checkpoints" | xargs rm -r')
-    if bytecode:
+    if bytecode or all:
         run(r'find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -r')
-    if docs:
+    if docs or all:
         run('rm -r docs/build')
+    if coverage or all:
+        run('rm -r htmlcov')
 
 @task
 def docs(interactive=False, api=False, notebooks=False):

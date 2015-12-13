@@ -8,6 +8,7 @@
 [run]
 omit =
     *tests.py
+    test*.py
 branch = True
 source =
 

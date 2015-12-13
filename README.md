@@ -34,7 +34,7 @@ In [8]: # index of test features, and target label included
 In [9]: rf.fit(X[train], y[train]).predict(X[~train]).head()
 Out[9]:
                                               survived
-name                                                  
+name
 Kelly, Mr. James                                     0
 Wilkes, Mrs. James (Ellen Needs)                     1
 Myles, Mr. Thomas Francis                            0
@@ -44,9 +44,9 @@ Hirvonen, Mrs. Alexander (Helga E Lindqvist)         1
 In [10]: #columns are multiindexed by target-class pairs
 In [11]: rf.predict_proba(X[~train]).head()
 Out[11]:
-                                              survived          
+                                              survived
                                                      0         1
-name                                                            
+name
 Kelly, Mr. James                              0.861595  0.138405
 Wilkes, Mrs. James (Ellen Needs)              0.489031  0.510969
 Myles, Mr. Thomas Francis                     0.854857  0.145143
@@ -76,7 +76,7 @@ You can lint the project using [Pylint](pylint.org) with:
 invoke linter
 ```
 
-And run the tests using [pytest](pytest.org) and [nose](nose.readthedocs.org) with:
+And run the tests using [pytest](pytest.org) with:
 
 ```bash
 invoke tests
