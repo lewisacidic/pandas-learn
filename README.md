@@ -1,6 +1,7 @@
 # pandas-learn
 
 [![Travis](https://img.shields.io/travis/richlewis42/pandas-learn.svg?style=flat-square)](https://travis-ci.org/richlewis42/pandas-learn) [![Coveralls](https://img.shields.io/coveralls/richlewis42/pandas-learn.svg?style=flat-square)](https://coveralls.io/github/richlewis42/pandas-learn)
+[![Code Health](https://landscape.io/github/richlewis42/pandas-learn/master/landscape.svg?style=flat-square)](https://landscape.io/github/richlewis42/pandas-learn/master)
 
 A python package adapting scikit-learn models to intelligently use pandas
 data structures.
