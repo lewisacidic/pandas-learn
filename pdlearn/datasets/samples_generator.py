@@ -204,7 +204,7 @@ def make_sparse_coded_signal(n_samples, n_components, n_features,
                              pandas_mode=False):
 
     y, X, w = ds.make_sparse_coded_signal(n_samples, n_components, n_features,
-                                 n_nonzero_coefs, random_state=None)
+                                          n_nonzero_coefs, random_state)
     if not pandas_mode:
         return y, X, w
     else:

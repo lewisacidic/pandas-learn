@@ -7,6 +7,9 @@
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
+#
+# test module, so disable docstring and method could be function requirements
+# pylint: disable=C0111,R0201,E1101
 
 """
 tests.test_datasets.test_samples_generator
@@ -15,13 +18,11 @@ tests.test_datasets.test_samples_generator
 Tests for dataset generator module of pdlearn.
 """
 
+import numpy as np
+import pandas as pd
 import pytest
 
-from ..test_utils import ZERO_D_ARRAY, ONE_D_ARRAY, TWO_D_ARRAY
-
-import pandas as pd
-import numpy as np
-
+# pylint: disable=E0611,no-name-in-module
 from pdlearn.datasets.samples_generator import (
     make_blobs,
     make_classification,
@@ -47,6 +48,9 @@ from pdlearn.datasets.samples_generator import (
     Synthesizer
 )
 
+from ..test_utils import ZERO_D_ARRAY, ONE_D_ARRAY, TWO_D_ARRAY
+
+
 NORMALS = [
     make_blobs,
     make_classification,
@@ -68,6 +72,10 @@ FEATS_ONLY = [
     make_sparse_spd_matrix
 ]
 
+BICLUSTER = [
+    make_biclusters,
+    make_checkerboard
+]
 
 
 class TestSynthesizer(object):
@@ -88,7 +96,7 @@ class TestSynthesizer(object):
         data = SYNTH.make_pd(ZERO_D_ARRAY)
         assert isinstance(data, pd.Series)
         assert data.index is not None
-        assert not np.array_equal(data.index,  [0])
+        assert not np.array_equal(data.index, [0])
         assert data.index.name is not None
         assert data.name is not None
 
@@ -96,7 +104,7 @@ class TestSynthesizer(object):
         data = SYNTH.make_pd(ONE_D_ARRAY)
         assert isinstance(data, pd.Series)
         assert data.index is not None
-        assert not np.array_equal(data.index,  [0, 1])
+        assert not np.array_equal(data.index, [0, 1])
         assert data.index.name is not None
         assert data.name is not None
 
@@ -161,7 +169,7 @@ class TestRegression(object):
         assert isinstance(coef, np.ndarray)
 
     def test_coef_single_pandas_mode(self):
-        X, y, coef = make_regression(coef=True, pandas_mode=True)
+        X, _, coef = make_regression(coef=True, pandas_mode=True)
         assert isinstance(coef, pd.Series)
         assert np.array_equal(X.columns, coef.index)
         assert coef.name == 'coefs'
@@ -186,18 +194,6 @@ class TestMultiLabel(object):
         assert np.array_equal(X.index, Y.index)
 
     def test_rd_pandas_mode(self):
-        X, y, c, w = make_multilabel_classification(n_labels=1,
-                                                    return_distributions=True,
-                                                    pandas_mode=True)
-        assert isinstance(c, pd.Series)
-        assert np.array_equal(y.columns, c.index)
-        assert c.name == 'prob_of_class'
-
-        assert isinstance(w, pd.DataFrame)
-        assert np.array_equal(X.columns, w.index)
-        assert np.array_equal(y.columns, w.columns)
-
-    def test_rd_pandas_mode(self):
         X, y, c, w = make_multilabel_classification(n_labels=5,
                                                     return_distributions=True,
                                                     pandas_mode=True)
@@ -214,7 +210,21 @@ class TestMultiLabel(object):
             make_multilabel_classification(pandas_mode=True, sparse=True)
 
 class TestBicluster(object):
-    pass
+
+    def test_normal_mode(self):
+        for func in BICLUSTER:
+            X, row, col = func(shape=(300, 300), n_clusters=5)
+            assert isinstance(X, np.ndarray)
+            assert isinstance(row, np.ndarray)
+            assert isinstance(col, np.ndarray)
+
+    def test_pandas_mode(self):
+        for func in BICLUSTER:
+            X, row, col = func(shape=(300, 300), n_clusters=5, pandas_mode=True)
+            assert isinstance(X, pd.DataFrame)
+            assert isinstance(row, pd.DataFrame)
+            assert isinstance(col, pd.DataFrame)
+
 
 class TestSparseCodedSignal(object):
 

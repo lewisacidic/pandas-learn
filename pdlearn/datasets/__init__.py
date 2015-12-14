@@ -7,6 +7,8 @@
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/MIT
 # Copyright (c) 2015, Rich Lewis <rl403@cam.ac.uk>
+#
+# pylint: disable=no-name-in-module,E0401
 
 """
 pdlearn.datasets
