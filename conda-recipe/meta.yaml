@@ -20,8 +20,7 @@ requirements:
       - python
       - pytest
       - coverage
-      - nose
-      - yanc
+      - pytest-cov
 
     run:
       - python
@@ -32,8 +31,7 @@ test:
     requires:
       - pytest
       - coverage
-      - nose
-      - yanc
+      - pytest-cov
 
     imports:
       - pdlearn
