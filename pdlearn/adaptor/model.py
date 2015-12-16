@@ -47,7 +47,7 @@ def pandas_mode_(self):
 
     return hasattr(self, 'feature_names_') or hasattr(self, 'target_names_')
 
-def fitter(func):
+def fit_method(func):
 
     @wraps(func)
     def inner(self, X, y=None):

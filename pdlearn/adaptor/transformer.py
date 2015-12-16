@@ -17,7 +17,7 @@ transformers to work with pandas.
 """
 
 from ..utils import takes_df_or_array, returns_single_indexed
-from .model import model, fitter
+from .model import model, fit_method
 
 # pylint: disable=C0111
 @takes_df_or_array
@@ -33,7 +33,7 @@ def transform(self, X):
 # determined during the fit.
 #
 # pylint: disable=C0111
-@fitter
+@fit_method
 def fit(self, X, y=None):
     pass
 

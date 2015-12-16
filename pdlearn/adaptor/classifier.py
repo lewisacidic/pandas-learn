@@ -16,6 +16,10 @@ Module implementing methods and decorators to add pandas compatability to
 classes inheriting from scikit-learn style classifiers.
 """
 
+import pandas as pd
+
+from .model import model, fit_method
+
 from ..utils import (
     takes_df_or_array,
     returns_single_indexed,
@@ -23,12 +27,9 @@ from ..utils import (
     is_frame,
     is_series)
 
-from .model import model, fitter
-import pandas as pd
-
 # pylint: disable=C0111
-@fitter
-def fit(self, X, y=None):
+@fit_method
+def fit(self, _, y):
 
     if is_frame(y):
         self.target_names_ = y.columns

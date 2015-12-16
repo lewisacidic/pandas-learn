@@ -93,6 +93,18 @@ def returns_single_indexed(func):
 
     return inner
 
+def make_multi_index(self):
+
+    """
+    Make a multiindex from of target_name-class pairs.
+    """
+    cls_by_targ = self.classes_ if self.multitask_ else [self.classes_]
+    cls_by_targ = zip(self.target_names_, cls_by_targ)
+    targ_cls_tup = [(target, klass) \
+                for target, classes in cls_by_targ \
+                for klass in classes]
+    return pd.MultiIndex.from_tuples(targ_cls_tup)
+
 def returns_multi_indexed(func):
 
     """
@@ -108,7 +120,6 @@ def returns_multi_indexed(func):
         res = func(self, X)
 
         if self.pandas_mode_:
-            cls_by_targ = self.classes_ if self.multitask_ else [self.classes_]
 
             if self.multitask_:
                 res = pd.concat([pd.DataFrame(r) for r in res], axis=1)
@@ -117,11 +128,7 @@ def returns_multi_indexed(func):
 
             res.index = X.index
 
-            cls_by_targ = zip(self.target_names_, cls_by_targ)
-            targ_cls_tup = [(target, klass) \
-                        for target, classes in cls_by_targ \
-                        for klass in classes]
-            res.columns = pd.MultiIndex.from_tuples(targ_cls_tup)
+            res.columns = make_multi_index(self)
             return res
         else:
             return res
