@@ -16,7 +16,7 @@ Tests for the model adaptor module of pdlearn.
 """
 
 
-from pdlearn.adaptor.model import model, fitter
+from pdlearn.adaptor.model import model, fit_method
 
 class Parent(object):
     def shout(self):
@@ -24,7 +24,7 @@ class Parent(object):
     def fit(self, X, y=None):
         pass
 
-@fitter
+@fit_method
 def mock_fit(self, X, y=None):
     pass
 
